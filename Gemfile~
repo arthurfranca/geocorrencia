@@ -10,8 +10,8 @@ gem 'sqlite3'
 
 # activerecord-spatialite-adapter require these
 # gem 'sqlite3'
-gem 'rgeo', '~> 0.3.20'
-gem 'rgeo-activerecord', '~> 0.4.6'
+gem 'rgeo',                            '~> 0.3.20'
+gem 'rgeo-activerecord',               '~> 0.4.6'
 gem 'activerecord-spatialite-adapter', '~> 0.4.1'
 
 

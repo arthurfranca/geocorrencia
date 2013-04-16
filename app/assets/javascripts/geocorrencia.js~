@@ -1,17 +1,39 @@
 /**
  * @author Arthur
  */
+var global_map_container;
+var global_clicked_lat_lon;
 
 jQuery(function($){
+  // Create Custom Icons to Markers
+/*  var LeafIcon = L.Icon.extend({
+                                  options: {
+                                            shadowUrl: 'leaf-shadow.png',
+                                             iconSize:     [38, 95],
+                                            shadowSize:   [50, 64],
+                                            iconAnchor:   [22, 94],
+                                            shadowAnchor: [4, 62],
+                                            popupAnchor:  [-3, -76]
+                                           }
+                               });
+  var greenIcon = new LeafIcon({iconUrl: 'leaf-green.png'}),
+      redIcon = new LeafIcon({iconUrl: 'leaf-red.png'}),
+      orangeIcon = new LeafIcon({iconUrl: 'leaf-orange.png'});
+      
+L.marker([51.5, -0.09], {icon: greenIcon}).addTo(map).bindPopup("I am a green leaf.");
+L.marker([51.495, -0.083], {icon: redIcon}).addTo(map).bindPopup("I am a red leaf.");
+L.marker([51.49, -0.1], {icon: orangeIcon}).addTo(map).bindPopup("I am an orange leaf.");
+*/
 
-  // Inserts Map on #map
-  var map = L.map('map').setView([-22.9326, -43.4711], 10);
+  // Insert Map on #map
+ //var map =...
+    global_map_container = L.map('map').setView([-22.9326, -43.4711], 10);
   L.tileLayer( 'http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18} ).addTo(map);
+    maxZoom: 18} ).addTo(global_map_container);
 
   
-  // Add vector layer representing Rio de Janeiro City to map
+  // Add vector layer
   var geojson_feature =
   {
     "type": "Feature",
@@ -30,163 +52,59 @@ jQuery(function($){
   var rj_polygon = L.geoJson(geojson_feature, {
                                style: style,
                                onEachFeature: on_each_feature
-                             }).addTo(map);
+                             }).addTo(global_map_container); 
 
   // Map Click
   function on_map_click(e)
   {
-      //alert("Desculpe, você só pode adicionar ocorrências na cidade do Rio de Janeiro");
+      alert("Desculpe, você só pode adicionar ocorrências na cidade do Rio de Janeiro");
   }
-    map.on('click', on_map_click);
+  global_map_container.on('click', on_map_click);
 
   // RJ Polygon (vector layer) Click
   var already_clicked_flag = false;
+/*  function on_submit_click()
+  {
+    alert("funfou");
 
+    // If occurrence was saved on DB, add marker with icon based on its type
+     // L.marker(clicked_lat_lon).addTo(map);
+    //$("<div id='insert_here'>Weee</div>").insertAfter("body"); 
+  
+    return false; // Cancels the default behavior of the button
+  }  */
 
   function on_rj_polygon_click(e)
   {
-    var clicked_lat_lon = e.latlng;
+    //var clicked_lat_lon = e.latlng;
+    global_clicked_lat_lon = e.latlng;
     
     if (already_clicked_flag == false)
     {
       $('<div id="insert_here"></div>').insertAfter('body');
       already_clicked_flag = true;
     }
-
-    // request to new.html.erb
+                    
     $.get('occurrences/new',
-          { // json sent to previous url
-            lat: clicked_lat_lon.lat,
-            lon: clicked_lat_lon.lng
+          { //json sent to previous url
+            lat: global_clicked_lat_lon.lat,
+            lon: global_clicked_lat_lon.lng
           },
-          function(data) // the data is the response received. In this case, it's new.html.erb
+          function(data) // the data is the response received
           {
-            // Inserts form into page
+            //  $('data').insertAfter('body');
             $('#insert_here').html(data); //.html wipes the previous content and then inserts data   
-          },
+            //$('input[type="submit"]').on('click',on_submit_click); // .on, not .click cause the element wasn't there on page load
+          },    
           'html'
-         );
+        );
   }
   rj_polygon.on('click', on_rj_polygon_click);
-
-
-
-    // Extracts the lat and lon from the raw data
-    function extracts_lat_lon(lat_lon)
-    {
-        var lat_lon_regex = /POINT \((.*)\)/;
-        var lat_lon_array_with_space = lat_lon.match(lat_lon_regex); // puts the match into an array
-        var lat_lon_array = lat_lon_array_with_space[1].split(/\s/); // removes the space between the two coordinates and puts the two results in an array (the first element is the raw data)
-        var current_occurrence_lat = lat_lon_array[0];
-        var current_occurrence_lon = lat_lon_array[1];
-
-        return new L.LatLng(current_occurrence_lat, current_occurrence_lon);
-    }
-
-
-    function add_marker_to_map(occurrence)
-    {
-        var current_occurrence_lat_lon = extracts_lat_lon(occurrence.lat_lon);
-
-        var occurrence_description = occurrence.type == null ? 'Tipo Não Escolhido' : occurrence.type.description;
-
-        // Adds a marker to map with it's popup, representing the occurrence
-        var popup_text = '<b>' + occurrence_description + '</b><br/>'
-            + occurrence.date + '-' + '<i>' + occurrence.hour.description + '</i><br/>'
-            + 'Declarante: ' + occurrence.declarant.name ;
-        L.marker(current_occurrence_lat_lon).addTo(map).bindPopup(popup_text);
-    }
-   function add_occurrences_to_map(all_occurrences_json)
-   {
-       $.each($.parseJSON(all_occurrences_json.ocorrencias), function()
-       {
-
-           if (this.lat_lon != null)
-           {
-               add_marker_to_map(this);
-           }
-
-       });
-   }
-   var all_occurrences_json;
-   function get_all_occurrences(){
-       //
-       var map_bounds = map.getBounds();
-
-       // a get to occurrences path will go to index action
-       $.get('occurrences',
-             {
-                //no json sending is needed
-             },
-             function(data) // the data is the response received
-             {
-               all_occurrences_json = $.parseJSON(data);
-               add_occurrences_to_map(all_occurrences_json);
-             },
-             'html'
-            );
-   }
-    get_all_occurrences();
-
-
-
-    function refresh_side_panel()
-    {
-        var current_map_bounds = map.getBounds();
-
-        // For each occurrence...
-        $.each($.parseJSON(all_occurrences_json.ocorrencias), function() {
-
-            if (this.lat_lon != null)
-            {
-                // Extracts the lat and lon from the raw data
-                var current_occurrence_lat_lon = extracts_lat_lon(this.lat_lon);
-                // If the occurrence is inside the current map view
-                if( current_map_bounds.contains( current_occurrence_lat_lon ) )
-                {
-                    // Clear left panel
-                    $('.left_panel').html('');
-
-                    // Inserts occurrence in left panel
-                    $.get('occurrences/show',
-                        { // json sent to previous url
-                            // id_o, cause rails didn't let me use id
-                            id_o: this.id
-                        },
-                        function(data) // the data is the response received. In this case, it's _show.html.erb
-                        {
-                            json_data = $.parseJSON(data);
-                            $('.left_panel').prepend(json_data.attachment_partial);
-                        },
-                        'html'
-                    );
-                }
-
-            }
-
-        });
-    }
-    function on_map_move(e)
-    {
-        refresh_side_panel();
-    }
-    // On any movement of the map
-    map.on('move', on_map_move);
-
-    // Adds an occurrence marker to the map on new occurrence submit
-    $('#new_occurrence_form')
-        .on("ajax:success", function(evt, data) //, status, xhr)
-        {
-            // Clear form
-            $(this).find('input[type="text"],input[type="textarea"]').val('');
-            $('#insert_here').hide();
-
-            // Inserts response partial into page. Inserts in left panel, before the first occurrence.
-            $('.left_panel').prepend(data.attachment_partial);
-
-            // Adds a marker(occurrence) to map
-            add_marker_to_map(data.ocorrencia);
-        });
-
+  
 });
-
+/*
+ * var lat = (e.latlng.lat);
+    var lng = (e.latlng.lng);
+    var newLatLng = new L.LatLng(lat, lng);
+    marker.setLatLng(newLatLng); 
+ */

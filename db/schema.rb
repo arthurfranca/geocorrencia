@@ -41,16 +41,17 @@ ActiveRecord::Schema.define(:version => 20130406021611) do
   end
 
   create_table "occurrences", :force => true do |t|
-    t.date    "date",                                                :null => false
+    t.date    "date",                                                  :null => false
     t.text    "description"
     t.integer "type_id"
     t.integer "hour_id"
     t.integer "declarant_id"
-    t.spatial "lat_lon",      :limit => {:srid=>-1, :type=>"point"}
+    t.spatial "lat_lon",      :limit => {:srid=>4326, :type=>"point"}
   end
 
   add_index "occurrences", ["declarant_id"], :name => "index_occurrences_on_declarant_id"
   add_index "occurrences", ["hour_id"], :name => "index_occurrences_on_hour_id"
+  add_index "occurrences", ["lat_lon"], :name => "idx_occurrences_lat_lon", :spatial => true
   add_index "occurrences", ["type_id"], :name => "index_occurrences_on_type_id"
 
   create_table "spatialite_history", :primary_key => "event_id", :force => true do |t|

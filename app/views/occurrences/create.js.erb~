@@ -17,7 +17,7 @@
   + "<%= escape_javascript( @occurrence.hour.description ) %>" + "</br>"
   + "Declarante:" + "<%= escape_javascript( @occurrence.declarant.name ) %>";*/
 
-//alert(popup_text);
+alert(popup_text); */
 
   L.marker(global_clicked_lat_lon).addTo(global_map_container).bindPopup("popup_text");
 

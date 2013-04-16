@@ -1,2 +1,9 @@
+<div class="left_panel">
+
+  <% @occurrences.each do |occurrence| %>
+      <%# Renders a partial and passes to it's LOCAL variable named occurrence the |occurrence| %>
+      <%= render :partial => 'occurrences/show', :locals => {:occurrence => occurrence } %>
+  <% end %>
+
+</div>
 <div id="map"></div>
-<%= link_to "WAHHH", new_occurrence_path %>

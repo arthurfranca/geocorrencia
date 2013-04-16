@@ -13,6 +13,9 @@ gem 'sqlite3'
 gem 'rgeo',                            '~> 0.3.20'
 gem 'rgeo-activerecord',               '~> 0.4.6'
 gem 'activerecord-spatialite-adapter', '~> 0.4.1'
+group :test do
+  gem 'debugger'
+end
 
 
 # Gems used only for assets and not required

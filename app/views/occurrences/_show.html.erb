@@ -1,0 +1,22 @@
+<div class="left_panel_occurrence">
+
+  <% if occurrence.type != nil %>
+
+    <% case occurrence.type.description %>
+    <% when "Acidente de Trânsito Sem Vítima" %>
+      <img class="left_panel_occurrence_image" src="/app/assets/images/rails.png" alt="Acidente de Trânsito Sem Vítima"/>
+    <% when "Furto" %>
+      <img class="left_panel_occurrence_image" src="/home/arthur/repositories/geocorrencia/app/assets/images/rails.png" alt="Furto"/>
+    <% when "Pessoa Desaparecida" %>
+      <img class="left_panel_occurrence_image" src="/app/assets/images/rails.png" alt="Pessoa Desaparecida"/>
+    <% end %>
+
+  <% else %>
+      <img class="left_panel_occurrence_image" src="/app/assets/images/rails.png" alt="Tipo Não Cadastrado"/>
+
+  <% end %>
+
+  <span class="left_panel_occurrence_date"><%= occurrence.date %></span><br />
+  <span class="left_panel_occurrence_hour"><%= occurrence.hour.description %></span>
+
+</div>

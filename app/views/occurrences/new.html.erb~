@@ -1,6 +1,6 @@
 <h2>Cadastramento de Ocorrência</h2>
 
-<%= form_for @occurrence, :remote => true, :html => { :'data-type' => 'html', :id => 'new_occurrence_form' } do |f| %>
+<%= form_for @occurrence, :remote => true, :html => { :'data-type' => 'js', :id => 'new-occurrence-form' } do |f| %>
 
   <%# Hidden field with lat_lon %>
   <%= f.hidden_field :lat_lon %>
@@ -45,7 +45,7 @@
       <%= builder.label :phone, "Telefone:" %></br> 
       <%= builder.text_field :phone %>
     </div>
-    <%= builder.fields_for :address, @occurrence.declarant.address do |builder| %>
+    <%= builder.fields_for :address, @declarant.address do |builder| %>
      <div class="field">
         <%= builder.label :street, "Endereço:" %></br> 
         <%= builder.text_field :street %>

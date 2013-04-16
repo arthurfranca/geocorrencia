@@ -1,0 +1,2 @@
+<div id="map"></div>
+<%= link_to "WAHHH", new_occurrence_path %>
