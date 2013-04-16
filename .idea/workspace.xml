@@ -2,23 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7f1b99a6-1380-4b6c-bfb9-0a636d994430" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/occurrences/_show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/geocorrencia_development" afterPath="$PROJECT_DIR$/db/geocorrencia_development" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/geocorrencia_test" afterPath="$PROJECT_DIR$/db/geocorrencia_test" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20130406021611_create_tables.rb" afterPath="$PROJECT_DIR$/db/migrate/20130406021611_create_tables.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="$PROJECT_DIR$/Gemfile.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/occurrences/create.js.erb" afterPath="$PROJECT_DIR$/app/views/occurrences/create.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/geocorrencia.iml" afterPath="$PROJECT_DIR$/.idea/geocorrencia.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/geocorrencia.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/geocorrencia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/occurrences/index.html.erb" afterPath="$PROJECT_DIR$/app/views/occurrences/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/occurrences/new.html.erb" afterPath="$PROJECT_DIR$/app/views/occurrences/new.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/occurrence.rb" afterPath="$PROJECT_DIR$/app/models/occurrence.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/occurrences.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/occurrences.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/occurrences_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/occurrences_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.generators" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.rakeTasks" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/arthur.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/geocorrencia.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/@occurrence" afterPath="" />
     </list>
     <ignored path="geocorrencia.iws" />
     <ignored path=".idea/workspace.xml" />
