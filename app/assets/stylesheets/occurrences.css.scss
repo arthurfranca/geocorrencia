@@ -1,9 +1,13 @@
 // Place all the styles related to the Occurrences controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+body { font-family: Verdana; font-size: 12px; }
+
 .left_panel { display: inline-block; width: 220px; height: 275px; margin: 2px; overflow: auto; }
-.left_panel_occurrence { width: 216px; height: 35px; }
+.left_panel_occurrence { width: 204px; height: 35px; }
 .left_panel_occurrence_image { width: 35px; height: 35px; }
-.left_panel_occurrence_date {  }
+.left_panel_occurrence_date, .left_panel_occurrence_hour { position: relative; top: -21px; }
+.left_panel_occurrence_date { left: 3px; }
+.left_panel_occurrence_hour { left: 41px; }
 
 #map { display: inline-block; width: 490px; height: 275px; }

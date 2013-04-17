@@ -24,20 +24,16 @@ jQuery(function($){
     "weight": 2,
     "opacity": 0
   };
-  function on_each_feature(feature, layer) {
-
-  }
   var rj_polygon = L.geoJson(geojson_feature, {
-                               style: style,
-                               onEachFeature: on_each_feature
+                               style: style
                              }).addTo(map);
 
   // Map Click
   function on_map_click(e)
   {
-      //alert("Desculpe, você só pode adicionar ocorrências na cidade do Rio de Janeiro");
+      alert("Desculpe, você só pode adicionar ocorrências na cidade do Rio de Janeiro");
   }
-    map.on('click', on_map_click);
+  // map.on('click', on_map_click);
 
   // RJ Polygon (vector layer) Click
   var already_clicked_flag = false;
@@ -52,6 +48,10 @@ jQuery(function($){
       $('<div id="insert_here"></div>').insertAfter('body');
       already_clicked_flag = true;
     }
+    else // If #insert_here div is already loaded on DOM
+    {
+      $('#insert_here').show();
+    }
 
     // request to new.html.erb
     $.get('occurrences/new',
@@ -62,7 +62,22 @@ jQuery(function($){
           function(data) // the data is the response received. In this case, it's new.html.erb
           {
             // Inserts form into page
-            $('#insert_here').html(data); //.html wipes the previous content and then inserts data   
+            $('#insert_here').html(data); //.html wipes the previous content and then inserts data
+
+            // Everytime form is successfully submitted, hide form, update left panel and add marker to map
+            $('#new_occurrence_form').on("ajax:success", function(event, data, status, xhr)
+                  {
+                    // Clear form
+                    $(this).find('input[type="text"],input[type="textarea"]').val('');
+                    $('#insert_here').hide();
+
+                    // Inserts response partial into page. Inserts in left panel, before the first occurrence.
+                    var json_data = $.parseJSON(data);
+                    $('.left_panel').prepend(json_data.attachment_partial);
+
+                    // Adds a marker(occurrence) to map
+                    add_marker_to_map($.parseJSON(json_data.ocorrencia));
+                  });
           },
           'html'
          );
@@ -89,11 +104,12 @@ jQuery(function($){
         var current_occurrence_lat_lon = extracts_lat_lon(occurrence.lat_lon);
 
         var occurrence_description = occurrence.type == null ? 'Tipo Não Escolhido' : occurrence.type.description;
+        var occurrence_declarant_name = occurrence.declarant == null ? 'Não Especificado' : occurrence.declarant.name;
 
         // Adds a marker to map with it's popup, representing the occurrence
         var popup_text = '<b>' + occurrence_description + '</b><br/>'
-            + occurrence.date + '-' + '<i>' + occurrence.hour.description + '</i><br/>'
-            + 'Declarante: ' + occurrence.declarant.name ;
+            + occurrence.date + ' ' + '<i><small>' + occurrence.hour.description + '</small></i><br/>'
+            + 'Declarante: ' + occurrence_declarant_name ;
         L.marker(current_occurrence_lat_lon).addTo(map).bindPopup(popup_text);
     }
    function add_occurrences_to_map(all_occurrences_json)
@@ -147,6 +163,7 @@ jQuery(function($){
                     // Clear left panel
                     $('.left_panel').html('');
 
+                    //todo: refactor -> send all occurrences on request at once, so that only one GET request is done
                     // Inserts occurrence in left panel
                     $.get('occurrences/show',
                         { // json sent to previous url
@@ -155,7 +172,7 @@ jQuery(function($){
                         },
                         function(data) // the data is the response received. In this case, it's _show.html.erb
                         {
-                            json_data = $.parseJSON(data);
+                            var json_data = $.parseJSON(data);
                             $('.left_panel').prepend(json_data.attachment_partial);
                         },
                         'html'
@@ -172,21 +189,6 @@ jQuery(function($){
     }
     // On any movement of the map
     map.on('move', on_map_move);
-
-    // Adds an occurrence marker to the map on new occurrence submit
-    $('#new_occurrence_form')
-        .on("ajax:success", function(evt, data) //, status, xhr)
-        {
-            // Clear form
-            $(this).find('input[type="text"],input[type="textarea"]').val('');
-            $('#insert_here').hide();
-
-            // Inserts response partial into page. Inserts in left panel, before the first occurrence.
-            $('.left_panel').prepend(data.attachment_partial);
-
-            // Adds a marker(occurrence) to map
-            add_marker_to_map(data.ocorrencia);
-        });
 
 });
 

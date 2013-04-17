@@ -27,8 +27,8 @@ class OccurrencesController < ApplicationController
   def new # Used by geocorrencia.js's .on_rj_polygon_click() - the response is new.html.erb form
     @occurrence = Occurrence.new
     @types = Type.all
-    @hours = Hour.all                   # It's strange, but it is the longitude first
-    @occurrence.lat_lon = "POINT(#{params[:lon]} #{params[:lat]})" # It is then passed to the form's hidden field
+    @hours = Hour.all
+    @occurrence.lat_lon = "POINT(#{params[:lat]} #{params[:lon]})" # It is then passed to the form's hidden field
 
     # Used on nested forms; Also had to put accepts_nested_attributes_for :declarant on Occurrence Model
     # And accepts_nested_attributes_for :address on Declarant Model
@@ -42,15 +42,13 @@ class OccurrencesController < ApplicationController
 
     if @occurrence.save
       flash[:notice] = "Ocorrência cadastrada com sucesso."
-
-      respond_with do |format|
-        # Overrides the default html response
-        format.html do
-          # If the new view form is remote, use geocorrencia.js to receive the json bellow
-          if request.xhr?
+      # If the new view form is remote, use geocorrencia.js's .on_rj_polygon_click()'s ajax:success trigger to receive the json bellow
+      if request.xhr?
+        respond_with do |format|
+          # Overrides the default json response
+          format.html do
             # The following json contains the occurrence object and the partial _show.html.erb
             render :json => {
-                              #:ocorrencia => @occurrence, #no need to do :ocorrencia => @occurrence.to_json( :include => [:type, :hour] )
                               :ocorrencia => @occurrence.to_json( :include => [:type, :hour] ),
                               :attachment_partial => render_to_string( :partial => 'occurrences/show', :locals => { :occurrence => @occurrence }, :layout => false )
                             }
